@@ -1,9 +1,12 @@
 # -*- encoding=UTF-8 -*-
-from easystagram import app, db
-from flask_script import Manager
-from easystagram.models import User, Image, Comment
-from sqlalchemy import or_, and_
 import random
+import unittest
+
+from flask_script import Manager
+from sqlalchemy import or_, and_
+
+from easystagram import app, db
+from easystagram.models import User, Image, Comment
 
 manager = Manager(app)
 
@@ -61,6 +64,11 @@ def delete_test():
         db.session.delete(comment)
     db.session.commit()
 
+
+@manager.command
+def run_test():
+    tests = unittest.TestLoader().discover('./')
+    unittest.TextTestRunner().run(tests)
 
 if __name__ == '__main__':
     manager.run()
